@@ -2,7 +2,7 @@ $(function(event) {
 
     var GRIDWIDTH = 100;
     var GRIDHEIGHT = 100;
-    var gameGrid[] = createGrid(GRIDWIDTH);
+    var gameGrid[] = createGrid(GRIDHEIGHT); //
 
     //creates the grid for the game, using an array of empty arrays
     function createGrid(rows) {
