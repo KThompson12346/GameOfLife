@@ -2,7 +2,8 @@ $(function(event) {
 
     var GRIDWIDTH = 100;
     var GRIDHEIGHT = 100;
-    var gameGrid[] = createGrid(GRIDHEIGHT); //
+    var gameGrid[] = createGrid(GRIDHEIGHT); //Grid used to display the grid
+    var newGameGrid[] = createGrid(GRIDHEIGHT); //Grid used to update game state
 
     //creates the grid for the game, using an array of empty arrays
     function createGrid(rows) {
@@ -22,7 +23,7 @@ $(function(event) {
             if (cell === 1) { //if the cell variable is the same as the integer value 1 and same type int then the element at gameGrid[rows][cols] is set to a 1 else a 0, this is done randomly.
             gameGrid[rows][cols] = 1;
           }
-          else {
+            else {
             gameGrid[rows][cols] = 0;
           }
         }
@@ -62,9 +63,40 @@ $(function(event) {
           totalNeighbours += gameGrid[rows+1][cols] //bottom center
           totalNeighbours += gameGrid[rows+1][cols+1] //bottom right
 
-          
+          //Game of life rules:
+
+          //alive cell rules
+          if (gameGrid[rows][cols] === 1) {
+            switch(totalNeighbours) {
+              //rule 1 any live cell with fewer than two live neighbours dies, as if by underpopulation
+              case totalNeighbours < 2:
+                newGameGrid[rows][cols] = 0;
+                break;
+              //rule 2 any live cell with two or three live neighbours lives on to the next generation
+              case totalNeighbours == 2:
+              case totalNeighbours == 3:
+                newGameGrid[rows][cols] = 1;
+                break;
+              //rule 3 any live cell with more than three live neighbours dies, as if by overpopulation
+              case totalNeighbours > 3:
+                newGameGrid[rows][cols] = 0;
+                break;
+            }
+          }
+          //dead cell rule 4 any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction
+          else if (gameGrid[rows][cols] === 0) {
+            if (totalNeighbours == 3) {
+              newGameGrid[rows][cols] = 1;
+              }
+            }
+          }
+        }
+        //iterate through the rows and columns and gameGrid is set to the newGameGrid with the updated cells in the grid
+        for (var rows = 0; rows < GRIDWIDTH; rows++) {
+          for (var cols = 0; cols < GRIDHEIGHT; cols++) {
+            gameGrid[rows][cols] = newGameGrid[rows][cols];
+          }
         }
       }
-    }
 
-})
+    })
