@@ -1,0 +1,18 @@
+/* to animate the element an element position has to be fixed, relative or absolute. */
+
+/* . is the class element  */
+.gameScreen {
+  height: 100vh;
+  background: #D3D3D3;
+  text-align: center;
+  position: relative;
+}
+
+/* # is the id element */
+#gameGrid {
+  height: 80%;
+  width: 80%;
+  background: Black;
+  margin: auto;
+  position: relative;
+}
