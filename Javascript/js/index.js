@@ -37,14 +37,34 @@ $(function(event) {
       //both loops go through the rows and columns respectively and draws the pixel in the grid in the specified colour
       for (var rows = 1; rows < GRIDHEIGHT; rows++) {
         for (var cols = 1; cols < GRIDWIDTH; cols++) {
-          if (gameGrid[rows][cols] === 1) { //if the element is a 1 the pixel is coloured to represent it is alive
-            context.fillStyle = “#FF0000”;
-            context.fillRect(rows, cols, 1, 1);
+          if (gameGrid[rows][cols] === 1) { //if the element is a 1 the pixel is coloured (red) to represent it is alive
+            ctx.fillStyle = “#FF0000”;
+            ctx.fillRect(rows, cols, 1, 1);
           }
         }
       }
     }
 
-    
+    //this function will update the grid to show the new position of the pixels
+    function updateGrid() {
+      for (var rows = 1; rows < GRIDHEIGHT - 1; rows++) {
+        for (var cols = 1; cols < GRIDWIDTH - 1; cols++) {
+          var totalNeighbours = 0; //holds the total neighbours a cell has
+          //calculations to add the neighbours
+          totalNeighbours += gameGrid[row-1][cols-1]; //top left
+          totalNeighbours += gameGrid[row-1][cols]; //top center
+          totalNeighbours += gameGrid[row-1][cols+1] //top right
+
+          totalNeighbours += gameGrid[rows][cols-1] //middle left
+          totalNeighbours += gameGrid[rows][cols+1] //middle right
+
+          totalNeighbours += gameGrid[rows+1][cols-1] //bottom left
+          totalNeighbours += gameGrid[rows+1][cols] //bottom center
+          totalNeighbours += gameGrid[rows+1][cols+1] //bottom right
+
+          
+        }
+      }
+    }
 
 })
