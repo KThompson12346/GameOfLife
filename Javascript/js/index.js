@@ -2,8 +2,8 @@ $(function(event) {
 
     var GRIDWIDTH = 100;
     var GRIDHEIGHT = 100;
-    var gameGrid[] = createGrid(GRIDHEIGHT); //Grid used to display the grid
-    var newGameGrid[] = createGrid(GRIDHEIGHT); //Grid used to update game state
+    var gameGrid[] = createGrid(GRIDWIDTH); //Grid used to display the grid
+    var newGameGrid[] = createGrid(GRIDWIDTH); //Grid used to update game state
 
     //creates the grid for the game, using an array of empty arrays
     function createGrid(rows) {
@@ -98,5 +98,13 @@ $(function(event) {
           }
         }
       }
+
+      function start() {
+        drawGrid();
+        updateGrid();
+        requestAnimationFrame(start);
+      }
+      populateGrid();
+      start();
 
     })
