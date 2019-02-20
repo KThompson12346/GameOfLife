@@ -1,15 +1,15 @@
 $(function(event) {
 
-    var GRIDWIDTH = 100;
-    var GRIDHEIGHT = 100;
-    var gameGrid[] = createGrid(GRIDWIDTH); //Grid used to display the grid
-    var newGameGrid[] = createGrid(GRIDWIDTH); //Grid used to update game state
+    var GRIDWIDTH = 400;
+    var GRIDHEIGHT = 400;
+    var gameGrid = createGrid(GRIDWIDTH); //Grid used to display the grid
+    var newGameGrid = createGrid(GRIDWIDTH); //Grid used to update game state
 
     //creates the grid for the game, using an array of empty arrays
     function createGrid(rows) {
-      var gridArray[]; //is the game grid
+      var gridArray = []; //is the game grid
       //for loop that creates the grid array, each element is an empty array to create the multi-dimensional array
-      for (var i = 0; i < ROWS; i++) {
+      for (var i = 0; i < rows; i++) {
         gridArray[i] = [];
       }
     return gridArray;
@@ -19,7 +19,7 @@ $(function(event) {
     function populateGrid() {
       for (var rows = 0; rows < GRIDHEIGHT; rows++) { //goes across the rows within the grid
         for (var cols = 0; cols < GRIDWIDTH; cols++) { //goes across the columns within the grid
-            var cell = Math.floor(Math.Random() * 2 ) //the cells of the grid is either a 1 or 0 (alive or dead), chosen at random
+            var cell = Math.floor(Math.random() * 2 ); //the cells of the grid is either a 1 or 0 (alive or dead), chosen at random
             if (cell === 1) { //if the cell variable is the same as the integer value 1 and same type int then the element at gameGrid[rows][cols] is set to a 1 else a 0, this is done randomly.
             gameGrid[rows][cols] = 1;
           }
@@ -34,12 +34,12 @@ $(function(event) {
     function drawGrid() {
       var gameCanvas = $("#gameCanvas"); //gets the gameCanvas element
       var ctx = $("#gameCanvas")[0].getContext("2d");
-      ctx.clearRect(0, 0, 100, 100);
+      ctx.clearRect(0, 0, 400, 400);
       //both loops go through the rows and columns respectively and draws the pixel in the grid in the specified colour
       for (var rows = 1; rows < GRIDHEIGHT; rows++) {
         for (var cols = 1; cols < GRIDWIDTH; cols++) {
           if (gameGrid[rows][cols] === 1) { //if the element is a 1 the pixel is coloured (red) to represent it is alive
-            ctx.fillStyle = “#FF0000”;
+            ctx.fillStyle = "#FF0000";
             ctx.fillRect(rows, cols, 1, 1);
           }
         }
@@ -52,9 +52,9 @@ $(function(event) {
         for (var cols = 1; cols < GRIDWIDTH - 1; cols++) {
           var totalNeighbours = 0; //holds the total neighbours a cell has
           //calculations to add the neighbours
-          totalNeighbours += gameGrid[row-1][cols-1]; //top left
-          totalNeighbours += gameGrid[row-1][cols]; //top center
-          totalNeighbours += gameGrid[row-1][cols+1] //top right
+          totalNeighbours += gameGrid[rows-1][cols-1]; //top left
+          totalNeighbours += gameGrid[rows-1][cols]; //top center
+          totalNeighbours += gameGrid[rows-1][cols+1] //top right
 
           totalNeighbours += gameGrid[rows][cols-1] //middle left
           totalNeighbours += gameGrid[rows][cols+1] //middle right
@@ -99,12 +99,12 @@ $(function(event) {
         }
       }
 
+      populateGrid();
+      start();
+
       function start() {
         drawGrid();
         updateGrid();
         requestAnimationFrame(start);
       }
-      populateGrid();
-      start();
-
     })
