@@ -1,6 +1,8 @@
 /* to animate the element an element position has to be fixed, relative or absolute. */
 
 /* . is the class element  */
-
+.title {
+  font-size: 30px;
+}
 
 /* # is the id element */

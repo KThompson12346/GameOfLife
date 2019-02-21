@@ -32,21 +32,20 @@ $(function(event) {
 
     //Will draw the game grid on the screen including cells
     function drawGrid() {
-      var gameCanvas = $("#gameCanvas"); //gets the gameCanvas element
-      var ctx = $("#gameCanvas")[0].getContext("2d");
+      var ctx = $("#gameCanvas")[0].getContext("2d"); //Gets the gameCanvas element and returns the context of the element 2d
       ctx.clearRect(0, 0, 400, 400);
       //both loops go through the rows and columns respectively and draws the pixel in the grid in the specified colour
       for (var rows = 1; rows < GRIDHEIGHT; rows++) {
         for (var cols = 1; cols < GRIDWIDTH; cols++) {
           if (gameGrid[rows][cols] === 1) { //if the element is a 1 the pixel is coloured (red) to represent it is alive
             ctx.fillStyle = "#FF0000";
-            ctx.fillRect(rows, cols, 1, 1);
+            ctx.fillRect(rows, cols, 1, 1); //Size of the pixels
           }
         }
       }
     }
 
-    //this function will update the grid to show the new position of the pixels
+    // //this function will update the grid to show the new position of the pixels
     function updateGrid() {
       for (var rows = 1; rows < GRIDHEIGHT - 1; rows++) {
         for (var cols = 1; cols < GRIDWIDTH - 1; cols++) {
@@ -67,26 +66,28 @@ $(function(event) {
 
           //alive cell rules
           if (gameGrid[rows][cols] === 1) {
-            switch(totalNeighbours) {
               //rule 1 any live cell with fewer than two live neighbours dies, as if by underpopulation
-              case totalNeighbours < 2:
+              if (totalNeighbours < 2) {
                 newGameGrid[rows][cols] = 0;
-                break;
+              }
               //rule 2 any live cell with two or three live neighbours lives on to the next generation
-              case totalNeighbours == 2:
-              case totalNeighbours == 3:
+              else if (totalNeighbours == 2 || totalNeighbours == 3) {
                 newGameGrid[rows][cols] = 1;
-                break;
+              }
               //rule 3 any live cell with more than three live neighbours dies, as if by overpopulation
-              case totalNeighbours > 3:
+              else if (totalNeighbours > 3 && totalNeighbours <= 8) {
                 newGameGrid[rows][cols] = 0;
-                break;
-            }
+              }
+              else {
+                newGameGrid[rows][cols] = 0;
+              }
           }
           //dead cell rule 4 any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction
           else if (gameGrid[rows][cols] === 0) {
             if (totalNeighbours == 3) {
               newGameGrid[rows][cols] = 1;
+            } else {
+                newGameGrid[rows][cols] = 0;
               }
             }
           }
