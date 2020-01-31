@@ -31,11 +31,11 @@ def cell_positions():
 
 def create_multiple_cells():
     for cell in range(0, 500):
-        canvas.create_rectangle(cell_positions(), fill='grey')
+        rectangle = canvas.create_rectangle(cell_positions(), fill='grey')
+        cells_dict['rectangle{0}'.format(cell)] = canvas.coords(rectangle)
 
-red_rectangle = canvas.create_rectangle(cell_positions(), fill='red')
-cells_dict['red_rectangle'] = canvas.coords(red_rectangle)
-print(cells_dict)
+
 create_multiple_cells()
+print(cells_dict)
 
 window.mainloop()
