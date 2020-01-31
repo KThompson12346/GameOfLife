@@ -2,6 +2,7 @@ from tkinter import *
 from random import *
 import time
 
+
 window = Tk() # creates the window for the game
 window.title('Game Of Life Python') # is the game title written on the window
 
@@ -17,17 +18,24 @@ game_title_label.grid(rowspan=2, column=0) # places the title of the game onto t
 game_title.grid(row=0, columnspan=2) # places the frame for the game title onto the window
 start_button.grid(rowspan=2, column=1) # places the start onto the window
 
+cells_dict = {}
+
+
 def cell_positions():
     x1 = randrange(0, 910, 10)
     y1 = randrange(0, 700, 10)
     x2 = x1 + 10
     y2 = y1 + 10
-    return x1, y1, x2, y2
+    return (x1, y1, x2, y2)
 
-def multiple_cells():
+
+def create_multiple_cells():
     for cell in range(0, 500):
         canvas.create_rectangle(cell_positions(), fill='grey')
 
-multiple_cells()
+red_rectangle = canvas.create_rectangle(cell_positions(), fill='red')
+cells_dict['red_rectangle'] = canvas.coords(red_rectangle)
+print(cells_dict)
+create_multiple_cells()
 
 window.mainloop()
