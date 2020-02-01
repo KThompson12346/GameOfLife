@@ -29,10 +29,10 @@ def cell_positions():
     return (x1, y1, x2, y2)
 
 
-def create_multiple_cells():
-    for cell in range(0, 500):
-        rectangle = canvas.create_rectangle(cell_positions(), fill='grey')
-        cells_dict['rectangle{0}'.format(cell)] = canvas.coords(rectangle)
+def create_multiple_cells(): # method to create the cells on the canvas
+    for cell in range(0, 500): # for loop that runs 500 times
+        rectangle = canvas.create_rectangle(cell_positions(), fill='grey') # on each iteration of the for loop 'rectangle' variable is updated with coordinates for a single cell
+        cells_dict['rectangle{0}'.format(cell)] = canvas.coords(rectangle) # on each iteration the 'cells_dict' is updated with an entry of coordinates corresponding to the 'rectangle' variable on each iteration
 
 
 create_multiple_cells()
