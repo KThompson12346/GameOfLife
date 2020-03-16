@@ -40,7 +40,7 @@ def create_multiple_cells(): # method to create the cells on the canvas
 # iterate through the dictionary and count each neighbour
 def check_neighbours(cell_to_check):
     x1, y1, x2, y2 = cell_to_check
-    if canvas.find_overlapping(x1+25, y1, x2+25, y2): # checks the right side of the neighbour 
+    if canvas.find_overlapping(x1+10, y1, x2+10, y2): # checks the right side of the neighbour
         print('There is a neighbour on the right')
     else:
         print('There is no neighbour on the right')
@@ -51,7 +51,7 @@ create_multiple_cells()
 print(cells_dict)
 blue_rectangle = canvas.create_rectangle(455, 350, 465, 360, fill='blue')
 red_rectangle = canvas.create_rectangle(465, 350, 475, 360, fill='red')
-check_neighbours(canvas.coords(blue_rectangle))
+check_neighbours(canvas.coords(red_rectangle))
 
 
 window.mainloop()
