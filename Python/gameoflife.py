@@ -33,25 +33,23 @@ def create_multiple_cells(): # method to create the cells on the canvas
     for cell in range(0, 500): # for loop that runs 500 times
         rectangle = canvas.create_rectangle(cell_positions(), fill='grey') # on each iteration of the for loop 'rectangle' variable is updated with coordinates for a single cell
         cells_dict['rectangle{0}'.format(cell)] = tuple(canvas.coords(rectangle)) # on each iteration the 'cells_dict' is updated with an entry of coordinates corresponding to the 'rectangle' variable on each iteration
-
+    return cells_dict
 
 # A method that will check/count each neighbour a cell has using
 # the saved dictionary of coordinates 'cells_dict'. It will
 # iterate through the dictionary and count each neighbour
-def check_neighbours(cell_to_check):
-    x1, y1, x2, y2 = cell_to_check
-    if canvas.find_overlapping(x1+10, y1, x2+10, y2): 
-        print('There is a neighbour on the right')
-    else:
-        print('There is no neighbour on the right')
-
+def check_neighbours(all_cells):
+    for cell in all_cells.values():
+        x1, y1, x2, y2 = cell
+        num_of_neighbours = canvas.find_overlapping(x1, y1, x2, y2)
+        print('The cell {}, has {} neighbours '.format(cell, num_of_neighbours))
 
 
 create_multiple_cells()
-print(cells_dict)
+check_neighbours(cells_dict)
+#print(cells_dict)
 blue_rectangle = canvas.create_rectangle(455, 350, 465, 360, fill='blue')
 red_rectangle = canvas.create_rectangle(465, 350, 475, 360, fill='red')
-check_neighbours(canvas.coords(red_rectangle))
 
 
 window.mainloop()
