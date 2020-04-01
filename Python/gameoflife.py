@@ -31,12 +31,11 @@ def cell_positions():
 
 def create_multiple_cells(): # method to create the cells on the canvas
     for cell in range(1, 501): # for loop that runs 500 times
-        rectangle = canvas.create_rectangle(cell_positions(), fill='grey') # on each iteration of the for loop 'rectangle' variable is updated with coordinates for a single cell
-        cells_dict['rectangle{0}'.format(cell)] = tuple(canvas.coords(rectangle)) # on each iteration the 'cells_dict' is updated with an entry of coordinates corresponding to the 'rectangle' variable on each iteration
+        rectangle = canvas.create_rectangle(cell_positions(), fill='grey', outline='blue') # on each iteration of the for loop 'rectangle' variable is updated with coordinates for a single cell
+        cells_dict['rectangle{}'.format(cell)] = tuple(canvas.coords(rectangle)) # on each iteration the 'cells_dict' is updated with an entry of coordinates corresponding to the 'rectangle' variable on each iteration
 
         #canvas.create_rectangle(cell_positions(), fill='grey')
         #cells_dict = canvas.find_all()
-
     return cells_dict
 
 
@@ -47,35 +46,37 @@ def get_key(*val):
             return key
     return "Key doesn't not exist"
 
-# get_value() method will return the value given a key in the cells_dict dictionary 
+# get_value() method will return the value given a key in the cells_dict dictionary
 def get_value(dict_key):
     for key, value in cells_dict.items():
         if dict_key == key:
             return value
     return "value doesn't not exist"
 
-
-
 # A method that will check/count each neighbour a cell has using
 # the saved dictionary of coordinates 'cells_dict'. It will
-# iterate through the dictionary and count each neighbour
+# iterate through the dictionary and count each neighbour and
+# return a dictionary that holds all cells with a neighbour
+# neighbours_dict.
 def check_neighbours(all_cells):
-    for cell in all_cells.values():
-        x1, y1, x2, y2 = cell
-        cell_key = get_key(x1, y1, x2, y2)
-        num_of_neighbours = canvas.find_overlapping(x1, y1, x2, y2)
+    neighbours_dict = {} # A dictionary that will hold all the neighbour cells and is returned at the end of the method
+    for cell in all_cells.values(): # Loops through dictionary values i.e. coordinates
+        x1, y1, x2, y2 = cell # each coordinate/cell is then split into separate variables
+        cell_key = get_key(x1, y1, x2, y2) # Variable cell_key is created to so that i have the key of each value
+        num_of_neighbours = canvas.find_overlapping(x1, y1, x2, y2) # num_of_neighbours holds the number of neighbours each coordinate/cell has, one means that the cell has no neighbours
         print('{} is at points {} and, has the neighbours {}.'.format(cell_key, get_value(cell_key), num_of_neighbours))
         print('---------------')
-        for neighbour_cell in num_of_neighbours:
-            if len(num_of_neighbours) > 1:
+        for neighbour_cell in num_of_neighbours: # Loops through each of the neighbour cells
+            if len(num_of_neighbours) > 1: # If the length of the number of neighbours is greater than one
                 print('rectangle{} is at points {}'.format(neighbour_cell, canvas.coords(neighbour_cell)))
+                neighbours_dict['neighbour_rect{}'.format(cell_key)] = tuple(canvas.coords(neighbour_cell))
         print('---------------')
+    return neighbours_dict
+
 
 
 
 create_multiple_cells()
 check_neighbours(cells_dict)
-#print(cells_dict)
-
 
 window.mainloop()
