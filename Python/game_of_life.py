@@ -49,16 +49,16 @@ def rules():
     neighbours_count = 0
     for row in data.keys():
         for column in data.keys():
-            neighbours_count += data[row-1][column-1] # top left
-            neighbours_count += data[row-1][column] # top center
-            neighbours_count += data[row+1][column-1] # top right
+            neighbours_count += data[(row-1, column-1)] # top left
+            neighbours_count += data[(row-1, column)] # top center
+            neighbours_count += data[(row+1, column-1)] # top right
 
-            neighbours_count += data[row][column-1] # middle left
-            neighbours_count += data[row][column+1] # middle right
+            neighbours_count += data[(row, column-1)] # middle left
+            neighbours_count += data[(row, column+1)] # middle right
 
-            neighbours_count += data[row-1][column+1] # bottom left
-            neighbours_count += data[row][column+1] # bottom center
-            neighbours_count += data[row+1][column+1] # bottom right
+            neighbours_count += data[(row-1, column+1)] # bottom left
+            neighbours_count += data[(row, column+1)] # bottom center
+            neighbours_count += data[(row+1, column+1)] # bottom right
 
             # Game Of Life rules
 
@@ -81,7 +81,7 @@ def rules():
                 if neighbours_count == 3:
                     data[(row, column)] = 1
                 else:
-                    data[(row, column)] = 0 
+                    data[(row, column)] = 0
 
 
 
