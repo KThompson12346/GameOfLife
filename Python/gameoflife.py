@@ -76,7 +76,6 @@ def check_neighbours(all_cells):
     return (neighbours_dict) # returns the dictionary that holds all the neighbour cells
 
 
-
 create_multiple_cells()
 rules(check_neighbours(cells_dict))
 
