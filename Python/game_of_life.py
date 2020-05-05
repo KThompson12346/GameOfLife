@@ -45,8 +45,48 @@ def get_value(w, h):
     return "value does not exist"
 
 
+def rules():
+    neighbours_count = 0
+    for row in data.keys():
+        for column in data.keys():
+            neighbours_count += data[row-1][column-1] # top left
+            neighbours_count += data[row-1][column] # top center
+            neighbours_count += data[row+1][column-1] # top right
+
+            neighbours_count += data[row][column-1] # middle left
+            neighbours_count += data[row][column+1] # middle right
+
+            neighbours_count += data[row-1][column+1] # bottom left
+            neighbours_count += data[row][column+1] # bottom center
+            neighbours_count += data[row+1][column+1] # bottom right
+
+            # Game Of Life rules
+
+            # alive cell rules
+            if data[(row, column)] == 1:
+                # rule 1 any live cell with fewer than two live neighbours dies, as if by underpopulation
+                if neighbours_count < 2:
+                    data[(row, column)] = 0
+                # rule 2 any live cell with two or three live neighbours lives on to the next generation
+                elif neighbours_count == 2 | neighbours_count == 3:
+                    data[(row, column)] = 1
+                # rule 3 any live cell with more than three live neighbours dies, as if by overpopulation
+                elif neighbours_count > 3 & neighbours_count <= 8:
+                    data[(row, column)] = 0
+                else:
+                    data[(row, column)] = 0
+            # dead cells rules
+            # rule 4 any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction
+            elif data[(row, column)] == 0:
+                if neighbours_count == 3:
+                    data[(row, column)] = 1
+                else:
+                    data[(row, column)] = 0 
+
+
+
+
+
 initialize()
 populate()
-print(data)
-print(get_value(909, 699))
 window.mainloop()
