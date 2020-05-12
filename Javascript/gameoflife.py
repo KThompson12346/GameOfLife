@@ -6,6 +6,7 @@ import numpy as np
 PIXEL_SIZE = 10
 ROW = 910
 COLUMN = 700
+grid = []
 
 window = Tk() # creates the window for the game
 window.title('Game Of Life Python') # is the game title written on the window
@@ -25,28 +26,29 @@ start_button.grid(rowspan=2, column=1) # places the start onto the window
 
 
 def create_grid():
-    grid = []
     for row in range(0, ROW):
         grid2 = []
         for column in range(0, COLUMN):
             grid2.append(randint(0, 1))
         grid.append(grid2)
-    return grid
 
 
-def draw_grid(game_grid):
-        for row in range(0, ROW):
-            for column in range(0, COLUMN):
-                if game_grid[row][column] == 1:
-                    x0 = row*PIXEL_SIZE
-                    y0 = column*PIXEL_SIZE
-                    x1 = x0+PIXEL_SIZE
-                    y1 = y0+PIXEL_SIZE
-                    canvas.create_rectangle(x0, y0, x1, y1, fill='red')
+
+def draw_grid():
+    for row in range(0, ROW):
+        for column in range(0, COLUMN):
+            if grid[row][column] == 1:
+                x0 = row*PIXEL_SIZE
+                y0 = column*PIXEL_SIZE
+                x1 = x0+PIXEL_SIZE
+                y1 = y0+PIXEL_SIZE
+                canvas.create_rectangle(x0, y0, x1, y1, fill='red')
 
 
 def apply_rules():
     pass
 
-draw_grid(create_grid())
+
+create_grid()
+draw_grid()
 window.mainloop()
