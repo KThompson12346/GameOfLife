@@ -46,9 +46,43 @@ def draw_grid():
 
 
 def apply_rules():
-    pass
+    neighbours_count = 0
+    for row in range(1, ROW - 1):
+        for column in range(1, COLUMN - 1):
+            # will count the neighbours for each cell
+            neighbours_count += grid[row-1][column-1] # top left
+            neighbours_count += grid[row][column-1] # top center
+            neighbours_count += grid[row+1][column-1] # top right
+
+            neighbours_count += grid[row-1][column] # middle left
+            neighbours_count += grid[row+1][column] # middle right
+
+            neighbours_count += grid[row-1][column+1] # bottom left
+            neighbours_count += grid[row][column+1] # bottom center
+            neighbours_count += grid[row+1][column+1] # bottom right
+
+            # Game Of Life rules:
+
+            # alive cell rules
+            if grid[row][column] == 1:
+                if neighbours_count < 2: # rule 1 any live cell with fewer than two live neighbours dies, as if by underpopulation
+                    grid[row][column] = 0
+                elif neighbours_count == 2 | neighbours_count == 3: # rule 2 any live cell with two or three live neighbours lives on to the next generation
+                    grid[row][column] = 1
+                elif neighbours_count > 3 & neighbours_count <= 8: # rule 3 any live cell with more than three live neighbours dies, as if by overpopulation
+                    grid[row][column] = 0
+                else:
+                    grid[row][column] = 0
+            elif grid[row][column] == 0: # dead cells rule 4 any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction
+                if neighbours_count == 3:
+                    grid[row][column] = 1
+                else:
+                    grid[row][column] = 0
+
+
 
 
 create_grid()
 draw_grid()
+apply_rules()
 window.mainloop()
