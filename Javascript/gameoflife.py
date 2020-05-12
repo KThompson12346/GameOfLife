@@ -6,7 +6,6 @@ import numpy as np
 PIXEL_SIZE = 10
 ROW = 910
 COLUMN = 700
-data = {}
 
 window = Tk() # creates the window for the game
 window.title('Game Of Life Python') # is the game title written on the window
@@ -24,37 +23,30 @@ game_title.grid(row=0, columnspan=2) # places the frame for the game title onto 
 start_button.grid(rowspan=2, column=1) # places the start onto the window
 
 
-def initialize():
-    for width in range(0, ROW):
-        for height in range(0, COLUMN):
-            data[(width, height)] = randint(0,1)
 
-def populate():
-    for row, column in data.keys():
-        tag = f"{row}x{column}"
-        x0 = column*PIXEL_SIZE
-        y0 = row*PIXEL_SIZE
-        x1 = x0+PIXEL_SIZE
-        y1 = y0+PIXEL_SIZE
-        color = "red" if data[(row,column)] == 1 else "green"
-        canvas.create_rectangle(x0, y0, x1, y1, fill=color, tags=(tag,))
-
-def get_value(w, h):
-    for key, value in data.items():
-        if data[(w, h)] == data[key]:
-            return value
-    return "value does not exist"
+def create_grid():
+    grid = []
+    for row in range(0, ROW):
+        grid2 = []
+        for column in range(0, COLUMN):
+            grid2.append(randint(0, 1))
+        grid.append(grid2)
+    return grid
 
 
-def rules():
-    
+def draw_grid(game_grid):
+        for row in range(0, ROW):
+            for column in range(0, COLUMN):
+                if game_grid[row][column] == 1:
+                    x0 = row*PIXEL_SIZE
+                    y0 = column*PIXEL_SIZE
+                    x1 = x0+PIXEL_SIZE
+                    y1 = y0+PIXEL_SIZE
+                    canvas.create_rectangle(x0, y0, x1, y1, fill='red')
 
 
-initialize()
-populate()
-t1 = (1,1)
-t2 = (1,1)
-t3 = tuple(np.add(t1,t2))
-print('t3 = {}'.format(t3))
-rules()
+def apply_rules():
+    pass
+
+draw_grid(create_grid())
 window.mainloop()
