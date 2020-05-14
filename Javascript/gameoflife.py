@@ -29,9 +29,9 @@ def draw_grid():
 
 
 def apply_rules():
-    neighbours_count = 0
     for row in range(1, ROW - 1):
         for column in range(1, COLUMN - 1):
+            neighbours_count = 0
             # will count the neighbours for each cell
             neighbours_count += grid[row-1][column-1] # top left
             neighbours_count += grid[row][column-1] # top center
@@ -49,27 +49,34 @@ def apply_rules():
             # alive cell rules
             if grid[row][column] == 1:
                 if neighbours_count < 2: # rule 1 any live cell with fewer than two live neighbours dies, as if by underpopulation
-                    grid[row][column] = 0
+                    updated_grid[row][column] = 0
                 elif neighbours_count == 2 | neighbours_count == 3: # rule 2 any live cell with two or three live neighbours lives on to the next generation
-                    grid[row][column] = 1
+                    updated_grid[row][column] = 1
                 elif neighbours_count > 3 & neighbours_count <= 8: # rule 3 any live cell with more than three live neighbours dies, as if by overpopulation
-                    grid[row][column] = 0
+                    updated_grid[row][column] = 0
                 else:
-                    grid[row][column] = 0
+                    updated_grid[row][column] = 0
             elif grid[row][column] == 0: # dead cells rule 4 any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction
                 if neighbours_count == 3:
-                    grid[row][column] = 1
+                    updated_grid[row][column] = 1
                 else:
-                    grid[row][column] = 0
-    window.after(0, apply_rules)
+                    updated_grid[row][column] = 0
+    for row in range(0, ROW):
+        for column in range(0, COLUMN):
+            grid[row][column] = updated_grid[row][column]
+
+
+def one_cycle():
+    apply_rules()
+    draw_grid()
+    window.after(1, one_cycle)
 
 
 window = Tk() # creates the window for the game
 window.title('Game Of Life Python') # is the game title written on the window
-
 canvas_frame = Frame(window) # creates a frame on the window to hold the canvas
 game_title = Frame(window) # creates a frame on the window to display the game title (which will be a label)
-start_button = Button(window, text='Start Game', command=apply_rules) # creates a button which will be used to start the game
+start_button = Button(window, text='Start Game', command=one_cycle) # creates a button which will be used to start the game
 canvas = Canvas(canvas_frame, width=ROW, height=COLUMN, background='black') # creates the canvas used to the draw the game of life
 game_title_label = Label(game_title, text='Game Of Life', font='Helvetica 20 bold', fg='grey') # creates the label for the game title which will be placed in a frame
 
@@ -81,5 +88,4 @@ start_button.grid(rowspan=2, column=1) # places the start onto the window
 
 
 create_grid()
-draw_grid()
 window.mainloop()
