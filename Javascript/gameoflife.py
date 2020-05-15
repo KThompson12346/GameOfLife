@@ -1,23 +1,28 @@
 from tkinter import *
 from random import *
 import time
-import numpy as np
+import copy
 
 PIXEL_SIZE = 10
-ROW = 910
-COLUMN = 700
-grid = []
-updated_grid = [[]]
+ROW = 91
+COLUMN = 70
 
-def create_grid():
-    for row in range(0, ROW):
+def create_grid(r, c):
+    grid = []
+    for row in range(0, r):
         grid2 = []
-        for column in range(0, COLUMN):
+        for column in range(0, c):
             grid2.append(randint(0, 1))
         grid.append(grid2)
+    return grid
+
+
+grid = create_grid(ROW, COLUMN)
+updated_grid = create_grid(ROW, COLUMN)
 
 
 def draw_grid():
+    canvas.delete('all')
     for row in range(0, ROW):
         for column in range(0, COLUMN):
             if grid[row][column] == 1:
@@ -50,9 +55,9 @@ def apply_rules():
             if grid[row][column] == 1:
                 if neighbours_count < 2: # rule 1 any live cell with fewer than two live neighbours dies, as if by underpopulation
                     updated_grid[row][column] = 0
-                elif neighbours_count == 2 | neighbours_count == 3: # rule 2 any live cell with two or three live neighbours lives on to the next generation
+                elif neighbours_count == 2 or neighbours_count == 3: # rule 2 any live cell with two or three live neighbours lives on to the next generation
                     updated_grid[row][column] = 1
-                elif neighbours_count > 3 & neighbours_count <= 8: # rule 3 any live cell with more than three live neighbours dies, as if by overpopulation
+                elif neighbours_count > 3 and neighbours_count <= 8: # rule 3 any live cell with more than three live neighbours dies, as if by overpopulation
                     updated_grid[row][column] = 0
                 else:
                     updated_grid[row][column] = 0
@@ -77,7 +82,7 @@ window.title('Game Of Life Python') # is the game title written on the window
 canvas_frame = Frame(window) # creates a frame on the window to hold the canvas
 game_title = Frame(window) # creates a frame on the window to display the game title (which will be a label)
 start_button = Button(window, text='Start Game', command=one_cycle) # creates a button which will be used to start the game
-canvas = Canvas(canvas_frame, width=ROW, height=COLUMN, background='black') # creates the canvas used to the draw the game of life
+canvas = Canvas(canvas_frame, width=PIXEL_SIZE*ROW, height=PIXEL_SIZE*COLUMN, background='black') # creates the canvas used to the draw the game of life
 game_title_label = Label(game_title, text='Game Of Life', font='Helvetica 20 bold', fg='grey') # creates the label for the game title which will be placed in a frame
 
 canvas.grid(row=0, column=0) # places the canvas onto the canvas_frame
@@ -86,6 +91,4 @@ game_title_label.grid(rowspan=2, column=0) # places the title of the game onto t
 game_title.grid(row=0, columnspan=2) # places the frame for the game title onto the window
 start_button.grid(rowspan=2, column=1) # places the start onto the window
 
-
-create_grid()
 window.mainloop()
