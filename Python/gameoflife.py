@@ -1,36 +1,35 @@
 from tkinter import *
 from random import *
 import time
-import copy
 
 PIXEL_SIZE = 10
 ROW = 91
 COLUMN = 70
 
-def create_grid(r, c):
-    grid = []
-    for row in range(0, r):
-        grid2 = []
-        for column in range(0, c):
-            grid2.append(randint(0, 1))
-        grid.append(grid2)
-    return grid
+def create_grid(r, c): # Method to initiate the grids
+    grid = [] # creates an empty one dimensional list
+    for row in range(0, r): # rows in the grid
+        grid2 = [] # creates another empty one dimensional list
+        for column in range(0, c): # columns in the grid
+            grid2.append(randint(0, 1)) # adds the contents of the grid
+        grid.append(grid2) # appends grid2 to grid, to create a two dimensional grid
+    return grid # a two dimensional grid is returned
 
 
-grid = create_grid(ROW, COLUMN)
-updated_grid = create_grid(ROW, COLUMN)
+grid = create_grid(ROW, COLUMN) # is a two dimensional list used for the game of life grid
+updated_grid = create_grid(ROW, COLUMN) # is a two dimensional list used to update the game of life grid
 
 
-def draw_grid():
-    canvas.delete('all')
+def draw_grid(): # method that draws the cells on the grid
+    canvas.delete('all') # will first delete all objects on the canvas first and then draws the cells again
     for row in range(0, ROW):
         for column in range(0, COLUMN):
-            if grid[row][column] == 1:
-                x0 = row*PIXEL_SIZE
+            if grid[row][column] == 1: # will only draw the cell if the value in the current position is a 1
+                x0 = row*PIXEL_SIZE # the following (x0, y0, x1, y1) points used in drawing the cells:
                 y0 = column*PIXEL_SIZE
                 x1 = x0+PIXEL_SIZE
                 y1 = y0+PIXEL_SIZE
-                canvas.create_rectangle(x0, y0, x1, y1, fill='red')
+                canvas.create_rectangle(x0, y0, x1, y1, fill='red') # draws the cells/rectangles on the grid
 
 
 def apply_rules():
@@ -71,7 +70,7 @@ def apply_rules():
             grid[row][column] = updated_grid[row][column]
 
 
-def one_cycle():
+def one_cycle(): # method will run one cycle of the game of life but calls itself to continuously run as an animation
     apply_rules()
     draw_grid()
     window.after(1, one_cycle)
