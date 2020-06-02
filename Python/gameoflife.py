@@ -25,7 +25,7 @@ def draw_grid(): # method that draws the cells on the grid
     for row in range(0, ROW):
         for column in range(0, COLUMN):
             if grid[row][column] == 1: # will only draw the cell if the value in the current position is a 1
-                x0 = row*PIXEL_SIZE # the following (x0, y0, x1, y1) points used in drawing the cells:
+                x0 = row*PIXEL_SIZE # the following (x0, y0, x1, y1) points used in drawing the cells: x0, y0 is the top left corner and x1, y1 is the bottom right corner
                 y0 = column*PIXEL_SIZE
                 x1 = x0+PIXEL_SIZE
                 y1 = y0+PIXEL_SIZE
