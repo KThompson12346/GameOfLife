@@ -13,7 +13,6 @@ public class GameOfLife extends JFrame {
   int ROW = 70;
   int COLUMN = 70;
   Random random = new Random();
-  int updatedGrid[][] = new int[ROW][COLUMN];
 
   public GameOfLife() {
     DrawCells cellsComp = new DrawCells();
@@ -29,6 +28,7 @@ public class GameOfLife extends JFrame {
     int x;
     int y;
     int grid[][] = new int[ROW][COLUMN];
+    int updatedGrid[][] = new int[ROW][COLUMN];
 
     public void createGrid() {
       for (int i = 0; i < grid.length; i++) {
@@ -36,7 +36,61 @@ public class GameOfLife extends JFrame {
           grid[i][j] = random.nextInt(2);
         }
       }
-      //System.out.println(Arrays.deepToString(grid).replace("], ", "]\n"));
+    }
+
+    public void applyRules() {
+      for (int i = 1; i < ROW - 1; i++) {
+        for (int j = 1; j < COLUMN - 1; j++) {
+          int neighboursCount = 0; // used to count the neighbours of each cell
+
+          neighboursCount += grid[i-1][j-1]; // top left
+          neighboursCount += grid[i][j-1]; // top center
+          neighboursCount += grid[i+1][j-1]; // top right
+
+          neighboursCount += grid[i-1][j]; // middle left
+          neighboursCount += grid[i+1][j]; // middle right
+
+          neighboursCount += grid[i-1][j+1]; // top left
+          neighboursCount += grid[i][j+1]; // top center
+          neighboursCount += grid[i+1][j+1]; // top right
+
+          // Game of Life rules:
+
+          // Alive cells:
+          if (grid[i][j] == 1) {
+            // rule 1 any live cell with fewer than two live neighboours dies, as if by underpopulation
+            if (neighboursCount < 2) {
+              updatedGrid[i][j] = 0;
+            }
+            // rule 2 any live cell with two or three live neighbours, lives on to the generation 
+            else if (neighboursCount == 2 || neighboursCount == 3) {
+              updatedGrid[i][j] = 1;
+            }
+            // rule 3 any live cell with more than three live neighbours dies, as if by overpopulation
+            else if (neighboursCount > 3 && neighboursCount <= 8) {
+              updatedGrid[i][j] = 0;
+            }
+            else {
+              updatedGrid[i][j] = 0;
+            }
+          }
+          // Dead cells
+          else if (grid[i][j] == 0) {
+            // rule 4 any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction
+            if (neighboursCount == 3) {
+              updatedGrid[i][j] = 1;
+            }
+            else {
+              updatedGrid[i][j] = 0;
+            }
+          }
+        }
+      }
+      for (int i = 0; i < ROW; i++){
+        for (int j = 0; i < COLUMN; j++) {
+          grid[i][j] = updatedGrid[i][j];
+        }
+      }
     }
 
     public void paintComponent(Graphics g) {
