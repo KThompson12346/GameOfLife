@@ -15,14 +15,16 @@ import java.awt.BorderLayout;
 public class GameOfLife extends JFrame {
 
   int PIXELSIZE = 10;
-  int ROW = 70;
-  int COLUMN = 70;
+  int ROW = 75;
+  int COLUMN = 75;
   Random random = new Random();
+  JButton start;
 
   public GameOfLife() {
     JPanel panel = new JPanel();
     DrawCells cellsComp = new DrawCells();
-    JButton start = new JButton("Start");
+    start = new JButton("Start");
+    start.addActionListener(cellsComp);
     panel.setLayout(new BorderLayout());
     start.setToolTipText("Click to start game of life");
     this.setTitle("Game Of Life: Java");
@@ -35,7 +37,7 @@ public class GameOfLife extends JFrame {
     this.setVisible(true);
   }
 
-  private class DrawCells extends JComponent {
+  private class DrawCells extends JComponent implements ActionListener {
     int x;
     int y;
     int grid[][] = new int[ROW][COLUMN];
@@ -97,8 +99,8 @@ public class GameOfLife extends JFrame {
           }
         }
       }
-      for (int i = 0; i < ROW; i++){
-        for (int j = 0; i < COLUMN; j++) {
+      for (int i = 0; i < ROW; i++) {
+        for (int j = 0; j < COLUMN; j++) {
           grid[i][j] = updatedGrid[i][j];
         }
       }
@@ -106,7 +108,6 @@ public class GameOfLife extends JFrame {
 
     public void paintComponent(Graphics g) {
       super.paintComponent(g);
-      createGrid();
       Graphics2D g2 = (Graphics2D) g;
       for (int i = 0; i < ROW; i++) {
         for (int j = 0; j < COLUMN; j++) {
@@ -118,8 +119,21 @@ public class GameOfLife extends JFrame {
       }
     }
 
-
-
+  Timer animation;
+  public void actionPerformed(ActionEvent e) {
+    if (e.getSource() == start && animation == null) {
+        createGrid(); 
+        int delay = 100; //milliseconds
+        ActionListener taskPerformer = new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                applyRules();
+                repaint();
+            }
+        };
+        animation = new Timer(delay, taskPerformer);
+        animation.start();
+      }
+    }
   }
 
   public static void main(String[] args) {
