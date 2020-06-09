@@ -73,7 +73,7 @@ def apply_rules():
 def one_cycle(): # method will run one cycle of the game of life but calls itself to continuously run as an animation
     apply_rules()
     draw_grid()
-    window.after(1, one_cycle)
+    window.after(1, one_cycle) # after one millisecond one_cycle will be called
 
 
 window = Tk() # creates the window for the game

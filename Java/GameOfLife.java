@@ -6,6 +6,11 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.Color;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.*;
+import javax.swing.*;
+import java.awt.BorderLayout;
 
 public class GameOfLife extends JFrame {
 
@@ -15,12 +20,18 @@ public class GameOfLife extends JFrame {
   Random random = new Random();
 
   public GameOfLife() {
+    JPanel panel = new JPanel();
     DrawCells cellsComp = new DrawCells();
+    JButton start = new JButton("Start");
+    panel.setLayout(new BorderLayout());
+    start.setToolTipText("Click to start game of life");
     this.setTitle("Game Of Life: Java");
     this.setSize(PIXELSIZE * ROW, PIXELSIZE * COLUMN);
     this.setLocationRelativeTo(null);
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    this.add(cellsComp);
+    panel.add(start, BorderLayout.SOUTH);
+    panel.add(cellsComp, BorderLayout.CENTER);
+    this.add(panel);
     this.setVisible(true);
   }
 
@@ -62,7 +73,7 @@ public class GameOfLife extends JFrame {
             if (neighboursCount < 2) {
               updatedGrid[i][j] = 0;
             }
-            // rule 2 any live cell with two or three live neighbours, lives on to the generation 
+            // rule 2 any live cell with two or three live neighbours, lives on to the generation
             else if (neighboursCount == 2 || neighboursCount == 3) {
               updatedGrid[i][j] = 1;
             }
@@ -106,6 +117,9 @@ public class GameOfLife extends JFrame {
         }
       }
     }
+
+
+
   }
 
   public static void main(String[] args) {
