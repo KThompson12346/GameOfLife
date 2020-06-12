@@ -14,44 +14,42 @@ import java.awt.BorderLayout;
 
 public class GameOfLife extends JFrame {
 
-  int PIXELSIZE = 10;
-  int ROW = 75;
-  int COLUMN = 75;
-  Random random = new Random();
-  JButton start;
+  int PIXELSIZE = 10; // size of each cell
+  int ROW = 75; // row of the game and will also dictate the size of the screen
+  int COLUMN = 75; // column of the game and also contributes to the size of the screen
+  Random random = new Random(); // will be use to randomly fill the grid with ones and zeros
+  JButton start; // will be used to start the game of life
 
   public GameOfLife() {
-    JPanel panel = new JPanel();
-    DrawCells cellsComp = new DrawCells();
-    start = new JButton("Start");
-    start.addActionListener(cellsComp);
-    panel.setLayout(new BorderLayout());
+    JPanel panel = new JPanel(); // used to add the start and the game of life board to the JFrame
+    DrawCells cellsComp = new DrawCells(); // is the game of life cells component
+    start = new JButton("Start"); // start button
+    start.addActionListener(cellsComp); // adds the ActionListener to the start button
+    panel.setLayout(new BorderLayout()); // gives the 'panel' the borderlayout
     start.setToolTipText("Click to start game of life");
     this.setTitle("Game Of Life: Java");
-    this.setSize(PIXELSIZE * ROW, PIXELSIZE * COLUMN);
-    this.setLocationRelativeTo(null);
+    this.setSize(PIXELSIZE * ROW, PIXELSIZE * COLUMN); // sets size of the screen using the ROW, COLUMN and PIXELSIZE
+    this.setLocationRelativeTo(null); // centers the game of life screen to the center of the screen
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    panel.add(start, BorderLayout.SOUTH);
-    panel.add(cellsComp, BorderLayout.CENTER);
-    this.add(panel);
+    panel.add(start, BorderLayout.SOUTH); // adds start button to the bottom of the panel
+    panel.add(cellsComp, BorderLayout.CENTER); // adds the cells component to the panel in the center (above the start button)
+    this.add(panel); // panel is added the JFrame
     this.setVisible(true);
   }
 
   private class DrawCells extends JComponent implements ActionListener {
-    int x;
-    int y;
-    int grid[][] = new int[ROW][COLUMN];
-    int updatedGrid[][] = new int[ROW][COLUMN];
+    int grid[][] = new int[ROW][COLUMN]; // is the origianl grid for the game of life
+    int updatedGrid[][] = new int[ROW][COLUMN]; // is the updated grid that is used to update 'grid'
 
-    public void createGrid() {
+    public void createGrid() { // method to create the grid and fill it with ones and zeros
       for (int i = 0; i < grid.length; i++) {
         for (int j = 0; j < grid[i].length; j++) {
-          grid[i][j] = random.nextInt(2);
+          grid[i][j] = random.nextInt(2); // above two lines loops through the grid array and then at position grid[i][j] a zero or one is placed in that position
         }
       }
     }
 
-    public void applyRules() {
+    public void applyRules() { // method that will apply the game of life rules to the grid
       for (int i = 1; i < ROW - 1; i++) {
         for (int j = 1; j < COLUMN - 1; j++) {
           int neighboursCount = 0; // used to count the neighbours of each cell
@@ -101,42 +99,42 @@ public class GameOfLife extends JFrame {
       }
       for (int i = 0; i < ROW; i++) {
         for (int j = 0; j < COLUMN; j++) {
-          grid[i][j] = updatedGrid[i][j];
+          grid[i][j] = updatedGrid[i][j]; // the original grid is now updated with the updated grid
         }
       }
     }
 
-    public void paintComponent(Graphics g) {
+    public void paintComponent(Graphics g) { // method to display the cells on the screen
       super.paintComponent(g);
       Graphics2D g2 = (Graphics2D) g;
       for (int i = 0; i < ROW; i++) {
         for (int j = 0; j < COLUMN; j++) {
-          if (grid[i][j] == 1) {
+          if (grid[i][j] == 1) { // if a one is in position grid[i][j] then a rectangle is drawn on the screen
             g2.setColor(Color.RED);
-            g2.fillRect(i * PIXELSIZE, j * PIXELSIZE, PIXELSIZE, PIXELSIZE);
+            g2.fillRect(i * PIXELSIZE, j * PIXELSIZE, PIXELSIZE, PIXELSIZE); // a rectangle is drawn in the position specified i*PIXELSIZE and j*PIXELSIZE  with the width and height of PIXELSIZE
           }
         }
       }
     }
 
   Timer animation;
-  public void actionPerformed(ActionEvent e) {
-    if (e.getSource() == start && animation == null) {
-        createGrid(); 
-        int delay = 100; //milliseconds
-        ActionListener taskPerformer = new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
+  public void actionPerformed(ActionEvent e) { // actionPerformed() method to give instructions to the start button
+    if (e.getSource() == start && animation == null) { // if the start button is clicked and the animation has not started then following is executed
+        createGrid(); // createGrid() method is called to initialize the grid
+        int delay = 100; // this is the time delay used with the timer
+        ActionListener taskPerformer = new ActionListener() { // another ActionListener is created to be used with the Timer object 'animation'
+            public void actionPerformed(ActionEvent evt) { // this actionPerformed() is used with taskPerformer to apply the game of life rules and repaint the cells on the screen
                 applyRules();
                 repaint();
             }
         };
-        animation = new Timer(delay, taskPerformer);
-        animation.start();
+        animation = new Timer(delay, taskPerformer); // a new Timer object is created with the delay and the taskPerformer ActionListener i.e. Timer will keep applying the game of life rules and repaint the cells
+        animation.start(); // the timer object is started
       }
     }
   }
 
   public static void main(String[] args) {
-    GameOfLife gol = new GameOfLife();
+    GameOfLife gol = new GameOfLife(); 
   }
 }
